@@ -186,5 +186,48 @@ namespace NZWalks.API.Controllers
             // Return Ok response
             return Ok(regionDTO);
         }
+
+        #region Private Methods
+
+        private void ValidateAddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
+        {
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Code))
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Code), 
+                    $"{nameof(addRegionRequest.Code)} cannot be null, empty, or white space");
+            }
+
+            if (string.IsNullOrWhiteSpace(addRegionRequest.Name))
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Name),
+                    $"{nameof(addRegionRequest.Name)} cannot be null, empty, or white space");
+            }
+
+            if (addRegionRequest.Area <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Area),
+                    $"{nameof(addRegionRequest.Area)} cannot be less than or equal to zero");
+            }
+
+            if (addRegionRequest.Lat <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Lat),
+                    $"{nameof(addRegionRequest.Lat)} cannot be less than or equal to zero");
+            }
+
+            if (addRegionRequest.Long <= 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Long),
+                    $"{nameof(addRegionRequest.Long)} cannot be less than or equal to zero");
+            }
+
+            if (addRegionRequest.Population < 0)
+            {
+                ModelState.AddModelError(nameof(addRegionRequest.Population),
+                    $"{nameof(addRegionRequest.Population)} cannot be less than to zero");
+            }
+        }
+
+        #endregion
     }
 }
