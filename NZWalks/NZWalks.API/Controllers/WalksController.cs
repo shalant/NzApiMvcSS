@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
@@ -72,7 +73,58 @@ namespace NZWalks.API.Controllers
             return CreatedAtAction(nameof(GetWalkAsync), new { id = walkDTO.Id }, walkDTO);
         }
 
-    }
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> UpdateWalkAsync([FromRoute] Guid id, [FromBody] Models.DTO.UpdateWalkRequest updateWalkRequest)
+        {
+            //convert dto to domain object
+            var walkDomain = new Models.Domain.Walk
+            {
+                Length = updateWalkRequest.Length,
+                Name = updateWalkRequest.Name,
+                RegionId = updateWalkRequest.RegionId,
+                WalkDifficultyId = updateWalkRequest.WalkDifficultyId
+            };
 
-    
+            // pass details to repo and get domain object in response or null
+            walkDomain = await walkRepository.UpdateAsync(id, walkDomain);
+
+            // handle null (not found)
+            if (walkDomain == null)
+            {
+                return NotFound();
+            }
+
+            // convert domain back to dto
+            var walkDTO = new Models.DTO.Walk
+            {
+                Id = walkDomain.Id,
+                Length = walkDomain.Length,
+                Name = walkDomain.Name,
+                RegionId = walkDomain.RegionId,
+                WalkDifficultyId = walkDomain.WalkDifficultyId
+            };
+
+            // return response
+            return Ok(walkDTO);
+        }
+
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> DeleteWalkAsync(Guid id)
+        {
+            // call repository to delete walk
+            var walkDomain = await walkRepository.DeleteAsync(id);
+
+            if(walkDomain == null)
+            {
+                return NotFound();
+            }
+            
+            var walkDTO = mapper.Map<Models.DTO.Walk>(walkDomain);
+
+            return Ok(walkDTO);
+        }
+
+    }
 }
