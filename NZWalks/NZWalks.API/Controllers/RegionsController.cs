@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using NZWalks.API.Models.Domain;
+using NZWalks.API.Models.DTO;
 using NZWalks.API.Repositories;
 
 namespace NZWalks.API.Controllers
@@ -17,8 +18,6 @@ namespace NZWalks.API.Controllers
             this.regionRepository = regionRepository;
             this.mapper = mapper;
         }
-
-        public IMapper Mapper { get; }
 
         [HttpGet]
         public async Task<IActionResult> GetAllRegionsAsync()
@@ -50,6 +49,7 @@ namespace NZWalks.API.Controllers
 
         [HttpGet]
         [Route("{id:guid}")]
+        [ActionName("GetRegionsAsync")]
         public async Task<IActionResult> GetRegionAsync(Guid id)
         {
             var region = await regionRepository.GetAsync(id);
@@ -62,6 +62,39 @@ namespace NZWalks.API.Controllers
             var regionDTO = mapper.Map<Models.DTO.Region>(region);
 
             return Ok(regionDTO);
+        }
+
+        [HttpPost]
+       
+        public async Task<IActionResult> AddRegionAsync(Models.DTO.AddRegionRequest addRegionRequest)
+        {
+            // request(DTO) to domain model
+            var region = new Models.Domain.Region()
+            {
+                Code = addRegionRequest.Code,
+                Area = addRegionRequest.Area,
+                Lat = addRegionRequest.Lat,
+                Long = addRegionRequest.Long,
+                Name = addRegionRequest.Name,
+                Population = addRegionRequest.Population
+            };
+
+            // pass details to repository
+            region = await regionRepository.AddAsync(region);
+
+            // convert data back to DTO
+            var regionDTO = new Models.DTO.Region
+            {
+                Id = region.Id,
+                Code = region.Code,
+                Area = region.Area,
+                Lat = region.Lat,
+                Long = region.Long,
+                Name = region.Name,
+                Population = region.Population
+            };
+
+            return CreatedAtAction(nameof(GetRegionAsync), new { id = regionDTO.Id }, regionDTO);
         }
     }
 }
