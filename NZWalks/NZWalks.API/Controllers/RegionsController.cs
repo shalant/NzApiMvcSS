@@ -7,6 +7,7 @@ namespace NZWalks.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class RegionsController : Controller
     {
         private readonly IRegionRepository regionRepository;
@@ -38,7 +39,6 @@ namespace NZWalks.API.Controllers
             //        Long = region.Long,
             //        Population = region.Population,
             //    };
-
             //    regionsDTO.Add(regionDTO);
             //});
 
