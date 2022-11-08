@@ -62,3 +62,6 @@ C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\obj\Debug\net6.0\
 C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\obj\Debug\net6.0\NZWalks.API.pdb
 C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\obj\Debug\net6.0\NZWalks.API.genruntimeconfig.cache
 C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\obj\Debug\net6.0\ref\NZWalks.API.dll
+C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\bin\Debug\net6.0\FluentValidation.dll
+C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\bin\Debug\net6.0\FluentValidation.AspNetCore.dll
+C:\Users\digdr\Documents\coding\NzApiMvcSS\NZWalks\NZWalks.API\bin\Debug\net6.0\FluentValidation.DependencyInjectionExtensions.dll
