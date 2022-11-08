@@ -18,11 +18,19 @@ namespace NZWalks.API.Repositories
                 Id = Guid.NewGuid(), Username = "readwrite@user.com", Password = "Readwrite@user",
                 Roles = new List<string> { "reader", "writer" }
             }
-        }
+        };
 
-        public Task<bool> AuthenticateAsync(string username, string password)
+        public async Task<bool> AuthenticateAsync(string username, string password)
         {
+            var user = Users.Find(x => x.Username.Equals(username, StringComparison.InvariantCultureIgnoreCase) &&
+            x.Password == password);
 
+            if(user != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
