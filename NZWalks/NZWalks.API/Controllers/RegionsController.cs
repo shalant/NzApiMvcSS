@@ -20,6 +20,7 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         //[Authorize(Roles = "reader")]
         public async Task<IActionResult> GetAllRegionsAsync()
         {
